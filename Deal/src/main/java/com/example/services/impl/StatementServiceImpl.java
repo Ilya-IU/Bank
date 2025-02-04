@@ -46,9 +46,9 @@ public class StatementServiceImpl implements StatementService {
             log.info("Метод FeignClient/Calculate/getOffers отработал успешно");
         } catch (Exception e) {
             log.error("Метод FeignClient/Calculate/getOffers отработал с ошибкой");
-            log.error(e.getMessage());
+            log.error(e.getMessage().toString());
             log.error(Arrays.toString(e.getStackTrace()));
-            throw new FeignClientExeption("ЧТО ТО НЕ ТАК С ДОКЕРОМ" + Arrays.toString(e.getStackTrace()));
+            throw new FeignClientExeption(Arrays.toString(e.getStackTrace()));
         }
         log.info("Список сформирован loanOfferDto={}", loanOfferDtos);
         Client client = createClientEntity(requestDto);
