@@ -25,10 +25,10 @@ import static java.time.Duration.between;
 @Component
 public class CalculateScoringImpl implements CalculateScoring {
 
-    @Value("${baseRate}")
+    @Value("${variables.baseRate}")
     private double baseRate;
 
-    @Value("${insuranceCost}")
+    @Value("${variables.insuranceCost}")
     private double insuranceCost;
 
     @Override

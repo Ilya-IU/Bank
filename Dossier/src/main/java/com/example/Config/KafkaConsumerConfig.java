@@ -3,6 +3,7 @@ package com.example.Config;
 import com.example.Dto.EmailMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -17,7 +18,8 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    private String bootstrapAddress = "localhost:9092";
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    private String bootstrapAddress;
 
     private String groupId = "test";
     @Bean
@@ -27,7 +29,7 @@ public class KafkaConsumerConfig {
                 ConsumerConfig.GROUP_ID_CONFIG, groupId,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class
-                //  ,              "spring.json.trusted.packages","*"
+
         );
         return new DefaultKafkaConsumerFactory<>(configProps,new StringDeserializer(),new JsonDeserializer<>(EmailMessage.class));
     }

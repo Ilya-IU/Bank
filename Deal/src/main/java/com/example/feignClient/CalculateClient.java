@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "calculate", url = "http://localhost:9090", configuration = FeignClientConfiguration.class)
+@FeignClient(name = "calculate", url = "${feign.calculate.url}", configuration = FeignClientConfiguration.class)
 public interface CalculateClient {
 
     @PostMapping(value = "/calculate/offer")

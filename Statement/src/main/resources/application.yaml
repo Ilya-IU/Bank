@@ -1,3 +1,8 @@
+server:
+  port: 8080
+feign:
+  deal:
+    url: http://localhost:9091
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres
@@ -7,7 +12,17 @@ spring:
   liquibase:
     enabled: true
     change-log: db/db.changelog-master.xml
-  application:
-    name: statement
-server:
-  port: 8080
+
+
+---
+spring:
+  profiles:
+    active: docker
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+  liquibase:
+    enabled: true
+    change-log: db/db.changelog-master.xml
+feign:
+  deal:
+    url: http://deal:9091

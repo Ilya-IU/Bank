@@ -7,9 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Deal" />
         <module name="Calculate" />
+        <module name="GateAway" />
+        <module name="Deal" />
         <module name="Statement" />
+        <module name="Dossier" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +19,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Calculate" options="-parameters" />
       <module name="Deal" options="-parameters" />
+      <module name="Dossier" options="-parameters" />
+      <module name="GateAway" options="-parameters" />
       <module name="Statement" options="-parameters" />
     </option>
   </component>
