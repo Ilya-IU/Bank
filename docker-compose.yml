@@ -19,9 +19,10 @@ services:
     depends_on:
       - db
       - kafka1
-      - statement
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/postgres
+      - SPRING_PROFILES_ACTIVE=docker
+
     networks:
       - my-network
 
@@ -46,6 +47,8 @@ services:
       - "8081:8081"
     depends_on:
       - kafka1
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
     networks:
       - my-network
 
@@ -57,6 +60,9 @@ services:
       - "8082:8082"
     depends_on:
       - deal
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - API_DEAL_URL=http://deal:9091
     networks:
       - my-network
 

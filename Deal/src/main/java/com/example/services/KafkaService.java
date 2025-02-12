@@ -22,6 +22,7 @@ import java.util.Random;
 @AllArgsConstructor
 @Slf4j
 public class KafkaService {
+
     @Autowired
     StatementRepository statementRepository;
 
@@ -37,6 +38,14 @@ public class KafkaService {
                 .theme(Theme.FINISH_REGISTRATION)
                 .build();
         log.info("Сообщение сформировано {}",emailMessage.toString());
+        try {
+            log.info("Сервис отправки отработал успешно message={}", emailMessage.toString());
+            kafkaTemplate.send("finish_registration", emailMessage);
+        }
+        catch (Exception e) {
+            log.error("Сбой отправки сообщения "+ e.getMessage());
+            throw new Exception("Сбой отправки сообщения "+ e.getMessage());
+        }
         kafkaTemplate.send("finish-registration", emailMessage);
     }
     public void createDocuments(Long statementId) {
