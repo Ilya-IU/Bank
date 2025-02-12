@@ -13,4 +13,4 @@ spring:
     active: docker
 feign:
   deal:
-    url: http://deal:9091
+    url: ${API_DEAL_URL:http://localhost:9091}
