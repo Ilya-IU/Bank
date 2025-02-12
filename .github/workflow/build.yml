@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:14.1-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      kafka:
+        image: wurstmeister/kafka
+        ports:
+          - '9092:9092'
+        environment:
+          KAFKA_ADVERTISED_HOST_NAME: kafka
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_CREATE_TOPICS: finish-registration,create-documents,send-documents,send-ses,credit-issued,statement-denied
+
+      zookeeper:
+        image: wurstmeister/zookeeper
+        ports:
+          - '2181:2181'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build/Test Services
+        run: |
+          mvn clean test package -pl calculate,deal,statement,dossier,gateway
+
+      - name: Build Docker Compose
+        run: docker-compose build
+
+      - name: Run project
+        run: |
+          docker-compose up --detach
+          docker-compose ps
+          docker-compose logs
+
+      - name: Compose down
+        if: always()
+        run: |
+          docker-compose stop
+          docker-compose down

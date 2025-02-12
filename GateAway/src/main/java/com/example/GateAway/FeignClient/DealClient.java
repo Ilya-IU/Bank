@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "deal", url = "http://localhost:9091",  configuration = {FeignConfig.class, CustomErrorDecoder.class})
+@FeignClient(name = "deal", url = "${feign.deal.url}",  configuration = {FeignConfig.class, CustomErrorDecoder.class})
 public interface DealClient {
     //Расчет 4х предложений
     @PostMapping(value = "/deal/statement")

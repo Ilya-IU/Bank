@@ -23,16 +23,16 @@ public class CalculateServiceImpl implements CalculateService, Comparator<LoanOf
     @Autowired
     private ScoringService scoringService;
 
-    @Value("${baseRate}")
+    @Value("${variables.baseRate}")
     private double baseRate;
 
-    @Value("${insuranceCost}")
+    @Value("${variables.insuranceCost}")
     private double insuranceCost;
 
-    @Value("${insurancePersent}")
+    @Value("${variables.insurancePersent}")
     private double insurancePersent;
 
-    @Value("${salaryPersent}")
+    @Value("${variables.salaryPersent}")
     private double salaryPersent;
 
 

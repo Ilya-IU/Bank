@@ -1,5 +1,8 @@
 server:
   port: 9091
+feign:
+  calculate:
+    url: http://localhost:9090
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres
@@ -15,3 +18,19 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+
+---
+spring:
+  profiles:
+    active: docker
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+  kafka:
+    producer:
+      bootstrap-servers: kafka1:9092
+feign:
+  calculate:
+    url: http://calculate:9090

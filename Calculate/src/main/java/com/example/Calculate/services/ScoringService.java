@@ -24,13 +24,13 @@ public class ScoringService{
     @Autowired
     private CalculateScoring calculateScoring;
 
-    @Value("${insurancePersent}")
+    @Value("${variables.insurancePersent}")
     private double insurancePersent;
 
-    @Value("${salaryPersent}")
+    @Value("${variables.salaryPersent}")
     private double salaryPersent;
 
-    @Value("${baseRate}")
+    @Value("${variables.baseRate}")
     private double baseRate;
 
     public CreditDto calculateCreditParams(ScoringDataDto request) throws ScoringExeption {
