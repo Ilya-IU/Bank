@@ -1,0 +1,16 @@
+feign:
+  deal:
+    url: http://localhost:9091
+server:
+  port: 8082
+
+
+
+
+---
+spring:
+  profiles:
+    active: docker
+feign:
+  deal:
+    url: ${API_DEAL_URL:http://localhost:9091}
