@@ -19,6 +19,8 @@ services:
     depends_on:
       - db
       - kafka1
+    env_file:
+      - ./deal/src/main/resources/.env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/postgres
       - SPRING_PROFILES_ACTIVE=docker
@@ -32,6 +34,8 @@ services:
     container_name: statement
     depends_on:
       - db
+    env_file:
+      - ./statement/src/main/resources/.env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/postgres
     ports:
@@ -47,6 +51,8 @@ services:
       - "8081:8081"
     depends_on:
       - kafka1
+    env_file:
+      - ./dossier/src/main/resources/.env
     environment:
       SPRING_PROFILES_ACTIVE: docker
     networks:

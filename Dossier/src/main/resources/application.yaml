@@ -1,12 +1,12 @@
 spring:
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
   mail:
     host: smtp.gmail.com
     port: 587
-    username: "ustygovilya9@gmail.com"
-    password: "obli dpvi upfa hrsh"
+    username: ${EMAIL_USER}
+    password: ${PASSWORD_USER}
     default-encoding: UTF-8
     properties:
         mail:
@@ -26,12 +26,12 @@ spring:
     active: docker
   kafka:
     consumer:
-      bootstrap-servers: kafka1:9092
+      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER}
   mail:
     host: smtp.gmail.com
     port: 587
-    username: "ustygovilya9@gmail.com"
-    password: "obli dpvi upfa hrsh"
+    username: ${EMAIL_USER}
+    password: ${PASSWORD_USER}
     default-encoding: UTF-8
     properties:
       mail:
