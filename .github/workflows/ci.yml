@@ -33,6 +33,7 @@ jobs:
           for MODULE in $MODULES; do
             echo "Building and testing module: $MODULE"
             cd $MODULE
+            chmod +x mvnw  
             ./mvnw verify
             cd ..
           done
