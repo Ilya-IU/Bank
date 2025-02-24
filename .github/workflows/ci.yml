@@ -21,10 +21,6 @@ jobs:
           distribution: 'temurin'
 
 
-      - name: Grant execute permission for mvnw
-        run: chmod +x mvnw
-
-
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
