@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = StatementApplication.class)
-@TestPropertySource("classpath:.env")
 @AutoConfigureMockMvc
 public class MainControllerTest {
 

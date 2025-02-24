@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 
+import com.example.DealApplication;
 import com.example.Dto.EmailMessage;
 import com.example.Dto.FinishRegistrationRequestDto;
 import com.example.Dto.LoanOfferDto;
@@ -38,8 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 
-@SpringBootTest
-@TestPropertySource("classpath:.env")
+@SpringBootTest(classes = DealApplication.class)
 @AutoConfigureMockMvc
 class MainControllerTest {
 

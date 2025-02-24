@@ -5,7 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(classes = StatementApplication.class)
-@TestPropertySource("classpath:.env")
 class StatementApplicationTests {
 
     @Test
