@@ -23,14 +23,14 @@ spring:
       bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
 
 ---
-spring:
-  profiles:
-    active: docker
-  datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
-  kafka:
-    producer:
-      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER}
-feign:
-  calculate:
-    url: http://calculate:9090
+#spring:
+#  profiles:
+#    active: docker
+#  datasource:
+#    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
+#  kafka:
+#    producer:
+#      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER}
+#feign:
+#  calculate:
+#    url: http://calculate:9090
