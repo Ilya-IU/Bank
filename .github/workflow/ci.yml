@@ -1,3 +1,4 @@
+name: CI - Bank
 on:
   push:
     branches: [ "master" ]
