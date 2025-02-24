@@ -1,0 +1,36 @@
+server:
+  port: 9091
+feign:
+  calculate:
+    url: http://localhost:9090
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: 'create-drop'
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
+
+---
+#spring:
+#  profiles:
+#    active: docker
+#  datasource:
+#    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
+#  kafka:
+#    producer:
+#      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER}
+#feign:
+#  calculate:
+#    url: http://calculate:9090
