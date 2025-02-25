@@ -50,7 +50,10 @@ jobs:
             ${{ runner.os }}-m2-
 
       - name: Wait for PostgreSQL to start
-        run: sleep 15
+        run: sleep 20
+
+      - name: Check PostgreSQL availability
+        run: nc -zv postgres 5432
 
       - name: Build and Test Modules
         run: |
@@ -58,10 +61,9 @@ jobs:
           for MODULE in $MODULES; do
             echo "Building and testing module: $MODULE"
             cd $MODULE
-            ls -l  # <---  ПОКАЗАТЬ СОДЕРЖИМОЕ КАТАЛОГА
             chmod +x mvnw
-            ls -l mvnw   # Проверяем, что файл стал исполняемым
-            ./mvnw verify -B -e  # Явно указываем путь к mvnw
+            ls -l mvnw   
+            ./mvnw verify -B -e -Dspring.profiles.active=test  
             cd ..
           done
 
@@ -76,4 +78,4 @@ jobs:
           SONAR_ORGANIZATION: ilya-iu
         run: |
           echo "Analyzing project with SonarCloud"
-          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }}
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} -Dspring.profiles.active=test
