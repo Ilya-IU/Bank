@@ -21,3 +21,8 @@ spring:
   kafka:
     producer:
       bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
+logging:
+  level:
+    org.springframework.jdbc.core: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
