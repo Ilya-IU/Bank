@@ -1,5 +1,5 @@
 # Configuration files
-.env
+application.yml
 
 HELP.md
 target/
