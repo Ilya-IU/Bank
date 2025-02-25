@@ -58,8 +58,10 @@ jobs:
           for MODULE in $MODULES; do
             echo "Building and testing module: $MODULE"
             cd $MODULE
-            chmod +x mvnw  
-            mvnw verify -B -e 
+            ls -l  # <---  ПОКАЗАТЬ СОДЕРЖИМОЕ КАТАЛОГА
+            chmod +x mvnw
+            ls -l mvnw   # Проверяем, что файл стал исполняемым
+            ./mvnw verify -B -e  # Явно указываем путь к mvnw
             cd ..
           done
 
@@ -74,4 +76,4 @@ jobs:
           SONAR_ORGANIZATION: ilya-iu
         run: |
           echo "Analyzing project with SonarCloud"
-          mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }}
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }}
