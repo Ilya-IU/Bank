@@ -60,7 +60,7 @@ jobs:
             cd $MODULE
             chmod +x mvnw
             ls -l mvnw   
-            ./mvn test -B -e
+            ./mvnw test -B -e
             cd ..
           done
 
