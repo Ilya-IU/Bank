@@ -14,7 +14,7 @@ jobs:
       postgres:
         image: postgres:latest
         ports:
-          - "5433:5432"
+          - "5432:5432"
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -49,8 +49,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      - name: Wait for PostgreSQL to start
-        run: sleep 20
+      - name: Resolve PostgreSQL hostname
+        run: |
+          PG_IP=$(getent ahostsv4 postgres | awk '{print $1}')
+          echo "PostgreSQL IP address: $PG_IP"
+          if [ -z "$PG_IP" ]; then
+            echo "Failed to resolve PostgreSQL hostname"
+            exit 1
+          fi
+          echo "::set-env name=PG_IP::$PG_IP"
 
       - name: Build and Test Modules
         run: |
@@ -60,7 +67,7 @@ jobs:
             cd $MODULE
             chmod +x mvnw
             ls -l mvnw
-            ./mvnw verify -B -e -Dspring.profiles.active=test
+            ./mvnw verify -B -e -Dspring.profiles.active=test -Dpostgres.ip=${{ env.PG_IP }}
             cd ..
           done
 
