@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      - name: Wait for PostgreSQL to start 
+      - name: Wait for PostgreSQL to start
         run: sleep 15
 
       - name: Build and Test Modules
@@ -58,8 +58,8 @@ jobs:
           for MODULE in $MODULES; do
             echo "Building and testing module: $MODULE"
             cd $MODULE
-            chmod +x ../mvnw  
-            ../mvnw verify -B -e 
+            chmod +x mvnw  
+            mvnw verify -B -e 
             cd ..
           done
 
@@ -74,4 +74,4 @@ jobs:
           SONAR_ORGANIZATION: ilya-iu
         run: |
           echo "Analyzing project with SonarCloud"
-          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }}
+          mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }}
