@@ -60,7 +60,7 @@ jobs:
             cd $MODULE
             chmod +x mvnw
             ls -l mvnw   
-            ./mvnw verify -B -e -Dspring.profiles.active=test  
+            ./mvn test -B -e
             cd ..
           done
 
