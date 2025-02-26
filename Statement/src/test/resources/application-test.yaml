@@ -5,9 +5,9 @@ feign:
     url: http://localhost:9091
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   liquibase:
     enabled: true
