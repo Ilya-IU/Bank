@@ -2,10 +2,10 @@ package com.example.Statement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@TestPropertySource("classpath:.env")
+@ActiveProfiles("test")
 class StatementApplicationTests {
 
     @Test
