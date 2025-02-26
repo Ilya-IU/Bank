@@ -5,11 +5,13 @@ feign:
     url: http://localhost:9091
 spring:
   datasource:
+
     url: jdbc:postgresql://localhost:5433/postgres
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-  liquibase:
-    enabled: true
-    change-log: db/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
 
