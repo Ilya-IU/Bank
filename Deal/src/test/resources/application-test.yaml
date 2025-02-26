@@ -14,10 +14,12 @@ spring:
       ddl-auto: 'create'
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
+  liquibase:
+    enabled: true
+    change-log: db/db.changelog-master.xml
   kafka:
     producer:
       bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER:kafka1:9092}
@@ -25,6 +27,6 @@ spring:
 
 logging:
   level:
-    org.springframework.jdbc.core: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.jdbc.core: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
