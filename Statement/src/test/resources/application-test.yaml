@@ -13,16 +13,3 @@ spring:
     enabled: true
     change-log: db/db.changelog-master.xml
 
-
----
-spring:
-  profiles:
-    active: docker
-  datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
-  liquibase:
-    enabled: true
-    change-log: db/db.changelog-master.xml
-feign:
-  deal:
-    url: http://deal:9091
