@@ -18,9 +18,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  kafka:
-    producer:
-      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
 logging:
   level:
     org.springframework.jdbc.core: DEBUG

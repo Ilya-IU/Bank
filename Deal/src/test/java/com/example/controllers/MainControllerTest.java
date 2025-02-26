@@ -24,7 +24,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -277,37 +276,7 @@ class MainControllerTest {
                 )
                 .andExpect(status().isBadRequest());
     }
-//    @Test
-//    public void getStatement_NotValid() throws Exception {
-//
-//        Random r = new Random();
-//        String id = r.nextLong()+"";
-//
-//        when(adminService.getStatementById(id)).thenThrow(new NotFoundStatementEntityByid());
-//
-//        mockMvc.perform(
-////                get("/deal/admin/statement/"+id)
-//                        get("/deal/admin/statement/"+id)
-//                                .content(objectMapper.writeValueAsString(id))
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(status().isBadRequest());
-//    }
-//
-//    @Test
-//    public void getAllStatement_NotValid() throws Exception {
-//
-//
-//
-//        when(adminService.getAllStatements()).thenThrow(new SQLException());
-//
-//        mockMvc.perform(
-//                        post("/deal/admin/statement/")
-////                                .content(objectMapper.writeValueAsString())
-////                                .contentType(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(status().isBadRequest());
-//    }
+
 }
 
 
