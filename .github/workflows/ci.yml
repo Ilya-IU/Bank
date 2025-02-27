@@ -52,27 +52,56 @@ jobs:
       - name: Wait for PostgreSQL to start
         run: sleep 20
 
-      - name: Build and Test Modules
+      - name: Build and Test Calculate Module and Analyze with SonarCloud
         run: |
-          MODULES="Calculate Deal Statement Dossier GateAway"
-          for MODULE in $MODULES; do
-            echo "Building and testing module: $MODULE"
-            cd $MODULE
-            chmod +x mvnw
-            ls -l mvnw   
-            ./mvnw test -B -e
-            cd ..
-          done
+          echo "Building and testing Calculate module"
+          cd Calculate
+          chmod +x mvnw
+          ls -l mvnw
+          pwd
+          ./mvnw test -B -e
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=Ilya-IU_Bank-Calculate -Dspring.profiles.active=test
+
+      - name: Build and Test Deal Module and Analyze with SonarCloud
+        run: |
+          echo "Building and testing Deal module"
+          cd Deal
+          chmod +x mvnw
+          ls -l mvnw
+          pwd
+          ./mvnw test -B -e
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=Ilya-IU_Bank-Deal -Dspring.profiles.active=test
+
+      - name: Build and Test Statement Module and Analyze with SonarCloud
+        run: |
+          echo "Building and testing Statement module"
+          cd Statement
+          chmod +x mvnw
+          ls -l mvnw
+          pwd
+          ./mvnw test -B -e
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=Ilya-IU_Bank-Statement -Dspring.profiles.active=test
+
+      - name: Build and Test Dossier Module and Analyze with SonarCloud
+        run: |
+          echo "Building and testing Dossier module"
+          cd Dossier
+          chmod +x mvnw
+          ls -l mvnw
+          pwd
+          ./mvnw test -B -e
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=Ilya-IU_Bank-Dossier -Dspring.profiles.active=test
+
+      - name: Build and Test GateAway Module and Analyze with SonarCloud
+        run: |
+          echo "Building and testing GateAway module"
+          cd GateAway
+          chmod +x mvnw
+          ls -l mvnw
+          pwd
+          ./mvnw test -B -e
+          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=Ilya-IU_Bank-GateAway -Dspring.profiles.active=test
 
       - name: Generate Codecov Report
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
-      - name: SonarCloud Analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECTKEY: Ilya-IU_Bank
-          SONAR_ORGANIZATION: ilya-iu
-        run: |
-          echo "Analyzing project with SonarCloud"
-          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} -Dspring.profiles.active=test
