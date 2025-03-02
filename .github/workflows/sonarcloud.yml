@@ -12,7 +12,7 @@ jobs:
   analyze:
     name: Analyze code with SonarCloud
     runs-on: ubuntu-latest
-#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     services:
       postgres:
@@ -33,7 +33,7 @@ jobs:
       JAVA_VERSION: 17
       SONAR_PROJECT_KEY: Ilya-IU_Bank
       SONAR_ORGANIZATION: ilya-iu
-      MAVEN_OPTS: -Dhttp.client.params.cookiePolicy=standard
+      # MAVEN_OPTS: -Dhttp.client.params.cookiePolicy=standard  # <---  Удаляем эту строку
       MODULES: "Calculate Deal Statement Dossier GateAway"
       SONAR_HOST_URL: https://sonarcloud.io
 
@@ -83,6 +83,6 @@ jobs:
               -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} \
               -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
               -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-              ${{ env.MAVEN_OPTS }}
+              -Dhttp.client.params.cookiePolicy=standard # <---  Добавляем параметр в команду
             cd ..
           done
