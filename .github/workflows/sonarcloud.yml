@@ -57,13 +57,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           for MODULE in $MODULES; do
+            MODULE=$(echo "$MODULE" | sed 's/^\s*//;s/\s*$//')
             echo "Analyzing module: $MODULE"
             cd $MODULE
             mvn clean verify sonar:sonar \
               -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
               -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} \
-              -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \  # <--- ДОБАВЛЕНО: URL SonarCloud
-              -Dsonar.login=${{ secrets.SONAR_TOKEN }} \ # <--- ДОБАВЛЕНО: Токен SonarCloud
+              -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+              -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
               ${{ env.MAVEN_OPTS }}
             cd ..
           done
