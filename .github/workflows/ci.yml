@@ -76,6 +76,7 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'sonarcloud.yml',
+              workflow_id: 'sonarcloud.yml', # Имя файла workflow SonarCloud
               ref: context.ref,
+              token: '${{ secrets.GH_PAT }}' # Используйте ваш персональный токен
             });
