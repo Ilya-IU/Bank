@@ -13,13 +13,14 @@ jobs:
     name: Analyze code with SonarCloud
     runs-on: ubuntu-latest
 
-    #variables
+
     env:
       JAVA_VERSION: 17
       SONAR_PROJECT_KEY: Ilya-IU_Bank
       SONAR_ORGANIZATION: ilya-iu
       MAVEN_OPTS: -Dhttp.client.params.cookiePolicy=standard
       MODULES: "Calculate Deal Statement Dossier GateAway"
+      SONAR_HOST_URL: https://sonarcloud.io
 
     steps:
       - name: Checkout code
@@ -52,6 +53,8 @@ jobs:
       - name: Analyze modules with SonarCloud
         env:
           MODULES: ${{ env.MODULES }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           for MODULE in $MODULES; do
             echo "Analyzing module: $MODULE"
@@ -59,6 +62,8 @@ jobs:
             mvn clean verify sonar:sonar \
               -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
               -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} \
+              -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \  # <--- ДОБАВЛЕНО: URL SonarCloud
+              -Dsonar.login=${{ secrets.SONAR_TOKEN }} \ # <--- ДОБАВЛЕНО: Токен SonarCloud
               ${{ env.MAVEN_OPTS }}
             cd ..
           done
