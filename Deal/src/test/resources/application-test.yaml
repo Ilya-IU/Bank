@@ -5,24 +5,28 @@ feign:
     url: http://localhost:9090
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: 'create-drop'
+      ddl-auto: 'create'
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
+  liquibase:
+    enabled: true
+    change-log: db/db.changelog-master.xml
   kafka:
     producer:
-      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_LOCAL}
+      bootstrap-servers: ${KAFKA_ADVERTISED_HOST_NAME_DOCKER:kafka1:9092}
+
+
 logging:
   level:
-    org.springframework.jdbc.core: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.jdbc.core: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO

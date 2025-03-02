@@ -5,24 +5,13 @@ feign:
     url: http://localhost:9091
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
-  liquibase:
-    enabled: true
-    change-log: db/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
 
----
-spring:
-  profiles:
-    active: docker
-  datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
-  liquibase:
-    enabled: true
-    change-log: db/db.changelog-master.xml
-feign:
-  deal:
-    url: http://deal:9091
