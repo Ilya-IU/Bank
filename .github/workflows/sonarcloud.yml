@@ -1,19 +1,24 @@
 name: SonarCloud Analysis
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["CI - Bank"]
+    types:
+      - completed
+#  push:
+#    branches:
+#      - master
+#  pull_request:
+#    branches:
+#      - master
 
 jobs:
   analyze:
     name: Analyze code with SonarCloud
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'pull_request' }}
 
-
+    # Define variables
     env:
       JAVA_VERSION: 17
       SONAR_PROJECT_KEY: Ilya-IU_Bank
@@ -48,7 +53,7 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-m2
+            ${{ runner.os }}-m2-
 
       - name: Analyze modules with SonarCloud
         env:
@@ -60,7 +65,7 @@ jobs:
             MODULE=$(echo "$MODULE" | sed 's/^\s*//;s/\s*$//')
             echo "Analyzing module: $MODULE"
             cd $MODULE
-            mvn clean verify sonar:sonar \
+            ./mvnw clean verify sonar:sonar \ # <--- Используем mvnw
               -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
               -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} \
               -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
