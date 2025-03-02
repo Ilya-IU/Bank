@@ -9,9 +9,9 @@ on:
       - master
 
 jobs:
-#  analyze:
-#    name: Analyze code with SonarCloud
-#    runs-on: ubuntu-latest
+  analyze:
+    name: Analyze code with SonarCloud
+    runs-on: ubuntu-latest
 #    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     services:
