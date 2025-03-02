@@ -1,24 +1,34 @@
 name: SonarCloud Analysis
 
 on:
-  workflow_run:
-    workflows: ["CI - Bank"]
-    types:
-      - completed
-#  push:
-#    branches:
-#      - master
-#  pull_request:
-#    branches:
-#      - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  analyze:
-    name: Analyze code with SonarCloud
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'pull_request' }}
+#  analyze:
+#    name: Analyze code with SonarCloud
+#    runs-on: ubuntu-latest
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-    # Define variables
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - "5433:5432"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       JAVA_VERSION: 17
       SONAR_PROJECT_KEY: Ilya-IU_Bank
@@ -54,6 +64,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
+
+      - name: Wait for PostgreSQL to start
+        run: sleep 20 # <---  Ждем запуска БД
 
       - name: Analyze modules with SonarCloud
         env:
