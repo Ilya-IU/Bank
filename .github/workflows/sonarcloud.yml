@@ -1,15 +1,24 @@
 name: SonarCloud Analysis
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: ["CI - Bank"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  sonarcloud:
+  analyze:
+    name: Analyze code with SonarCloud
     runs-on: ubuntu-latest
+
+
+    env:
+      JAVA_VERSION: 17
+      SONAR_PROJECT_KEY: Ilya-IU_Bank
+      SONAR_ORGANIZATION: ilya-iu
+      MAVEN_OPTS: -Dhttp.client.params.cookiePolicy=standard
 
     steps:
       - name: Checkout code
@@ -17,19 +26,34 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
-      - name: SonarCloud Analyze
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar-${{ env.JAVA_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-sonar-
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Analyze with SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECTKEY: Ilya-IU_Bank
-          SONAR_ORGANIZATION: ilya-iu
         run: |
-          echo "Analyzing project with SonarCloud"
-          chmod +x mvnw
-          ./mvnw sonar:sonar -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} -Dsonar.projectKey=${{ env.SONAR_PROJECTKEY }} -Dspring.profiles.active=test
+          mvn clean verify sonar:sonar \
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }} \
+            ${{ env.MAVEN_OPTS }}
