@@ -1,7 +1,7 @@
 ame: SonarCloud Analysis
 
 on:
-  workflow_dispatch:  # Запускать вручную или по триггеру
+  workflow_dispatch:
   workflow_run:
     workflows: ["CI - Bank"]
     types:

@@ -68,15 +68,3 @@ jobs:
 
       - name: Generate Codecov Report
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Trigger SonarCloud Analysis
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'sonarcloud.yml', # Имя файла workflow SonarCloud
-              ref: context.ref,
-              token: '${{ secrets.GH_PAT }}' # Используйте ваш персональный токен
-            });
