@@ -11,6 +11,7 @@ import com.example.services.AdminService;
 import com.example.services.interfaces.CalculateScoringService;
 import com.example.services.KafkaService;
 import com.example.services.interfaces.StatementService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,13 +42,20 @@ public class MainController {
     @Autowired
     AdminService adminService;
 
+    @Operation(summary = "Отправляет запрос в сервис calculate/Ответом является " +
+            "4-е кредитных предложения для клиента",
+            description = "Формирует заявку от клиента с занесением данных в БД, " +
+                    "ответом является список кредитных предложений")
     @PostMapping(value = "/statement")
     public List<LoanOfferDto> getOffers(@RequestBody LoanStatementRequestDto requestDto) throws FeignClientExeption {
 
         return statementService.getListOffers(requestDto);
     }
 
-
+    @Operation(summary = "Завершает оформление документов клиента и отправляет " +
+            "подтверждение на почту указанную при регистрации",
+    description = "Заполняет оставшуюся информацию по клиенту в БД/Отправляет на почту" +
+            " клиента подтверждение о завершении регистрации и выборе предложения")
     @PostMapping(value = "/offer/select")
     public String selectStatusHistory(@RequestBody LoanOfferDto requestDto) throws Exception {
         log.info("Вызов метода изменения статуса заявки с параметрами Request: {}", requestDto);
@@ -57,7 +65,8 @@ public class MainController {
         log.info("Сообщение отправлено в Dossier");
         return "Успешно";
     }
-
+@Operation(summary = "Отправляет запрос в сервис calculate по расчету параметров скоринга и создает начальный пакет документов по предложению",
+description = "Расчитывает параметры скоринга, формирует новые данные в БД и отправляет")
     @PostMapping(value = "/calculate/{statementId}")
     public void FinishRegistrationAndCredit(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                             @PathVariable Long statementId) throws FeignClientExeption, NotFoundStatementEntityByid {
