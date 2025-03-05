@@ -1,10 +1,15 @@
 package com.example;
 
 import com.example.Dto.*;
+import com.example.entity.Client;
+import com.example.entity.Credit;
+import com.example.entity.Statement;
 import com.example.enums.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Dtos {
@@ -54,6 +59,55 @@ public class Dtos {
                 .build();
         return loanOfferDto1;
     }
+    public List<LoanOfferDto> correctListLoanOfferDto(){
+
+        LoanOfferDto loanOfferDto1 = LoanOfferDto.builder()
+                .statementId(1L)
+                .requestedAmount(BigDecimal.valueOf(1_000_000))
+                .totalAmount(BigDecimal.valueOf(1_276_000))
+                .term(6)
+                .monthlyPayment(BigDecimal.valueOf(212_666.67))
+                .rate(BigDecimal.valueOf(16))
+                .isInsuranceEnabled(true)
+                .isSalaryClient(true)
+                .build();
+        LoanOfferDto loanOfferDto2 = LoanOfferDto.builder()
+                .statementId(2L)
+                .requestedAmount(BigDecimal.valueOf(1_000_000))
+                .totalAmount(BigDecimal.valueOf(1_287_000))
+                .term(6)
+                .monthlyPayment(BigDecimal.valueOf(214_500))
+                .rate(BigDecimal.valueOf(17))
+                .isInsuranceEnabled(true)
+                .isSalaryClient(false)
+                .build();
+        LoanOfferDto loanOfferDto3 = LoanOfferDto.builder()
+                .statementId(3L)
+                .requestedAmount(BigDecimal.valueOf(1_000_000))
+                .totalAmount(BigDecimal.valueOf(1_190_000))
+                .term(6)
+                .monthlyPayment(BigDecimal.valueOf(198_333.33))
+                .rate(BigDecimal.valueOf(19))
+                .isInsuranceEnabled(false)
+                .isSalaryClient(true)
+                .build();
+        LoanOfferDto loanOfferDto4 = LoanOfferDto.builder()
+                .statementId(4L)
+                .requestedAmount(BigDecimal.valueOf(1_000_000))
+                .totalAmount(BigDecimal.valueOf(1_190_000))
+                .term(6)
+                .monthlyPayment(BigDecimal.valueOf(198_333.33))
+                .rate(BigDecimal.valueOf(20))
+                .isInsuranceEnabled(true)
+                .isSalaryClient(true)
+                .build();
+        List<LoanOfferDto> list = new ArrayList<>();
+        list.add(loanOfferDto4);
+        list.add(loanOfferDto3);
+        list.add(loanOfferDto2);
+        list.add(loanOfferDto1);
+        return list;
+    }
 
     public EmailMessage correctEmailMessage(){
         EmailMessage emailMessage = EmailMessage.builder()
@@ -100,5 +154,35 @@ public class Dtos {
                         .build();
         return loanStatementRequestDto;
     }
+
+    public Client createClientEntity() {
+        Client client = new Client();
+        client.setId(1L);
+        client.setFirstName("TestName");
+        client.setLastName("TestLastName");
+        client.setMiddleName("TestMiddleName");
+        client.setBirthdate(LocalDate.of(1990, 1, 1));
+        client.setEmail("test@example.com");
+        Passport passport = new Passport();
+        passport.setSeries("1234");
+        passport.setNumber("567890");
+        client.setPassport(passport);
+        return client;
+    }
+
+    public Credit createCreditEntity() {
+        Credit credit = new Credit();
+        credit.setId(1L);
+        credit.setAmount(BigDecimal.valueOf(100000));
+        credit.setTerm(12);
+        return credit;
+    }
+
+    public Statement createStatementEntity() {
+        Statement statement = new Statement();
+        statement.setId(1L);
+        return statement;
+    }
+
 
     }
